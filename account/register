@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.utills import sysdate
+from django.db import connection
 
 def save_user(req);
   user = req.User
@@ -7,15 +8,15 @@ def save_user(req);
   user.save()
   
       
-def check_exist_data(user):
+def check_exist_data(data, condition):
 
-    if not user.data:
+    if not data:
         raise ValueError('Отсутствуют данные')
 
     sql = f"""
                 select * from t_user
-                where lower(email) like lower({user.data.email})
+                where {condition}
                 and rownum <= 1
             """
-    res = user.objects.raw(sql)
+    res = connection.cursor.execute(sql)
     return True if res else False
