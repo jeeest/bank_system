@@ -1,0 +1,8 @@
+from django.contrib.auth.models import User
+from django.utills import sysdate
+
+user = req.User
+
+user.date_create = sysdate.now()
+
+user.save()
